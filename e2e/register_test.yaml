@@ -9,7 +9,13 @@ appId: com.speedautosystems.vmi.rental
 - tapOn: Company Name *
 - inputRandomPersonName
 - tapOn: Password *
-- inputRandomEmail
+- inputText: ${PASSWORD}
 - tapOn: Retype Password *
-- inputRandomEmail
+- inputText: ${PASSWORD}
 - tapOn: Next
+- tapOn: Activation Code
+- inputText: 13245
+- tapOn: CONTINUE
+- assertVisible: Activation code not valid
+
+  # maestro test e2e/register_test.yaml -e PASSWORD=123456
