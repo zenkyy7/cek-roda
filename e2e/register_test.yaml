@@ -1,0 +1,15 @@
+appId: com.speedautosystems.vmi.rental
+---
+- launchApp
+- tapOn: Sign Up
+- tapOn: Name *
+- inputRandomPersonName
+- tapOn: Email Address *
+- inputRandomEmail
+- tapOn: Company Name *
+- inputRandomPersonName
+- tapOn: Password *
+- inputRandomEmail
+- tapOn: Retype Password *
+- inputRandomEmail
+- tapOn: Next
