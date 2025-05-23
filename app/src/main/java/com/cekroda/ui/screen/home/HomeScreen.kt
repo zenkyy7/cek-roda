@@ -19,7 +19,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cekroda.model.Inspection
@@ -27,6 +31,7 @@ import com.cekroda.model.InspectionStatus
 import com.cekroda.presentation.home.HomeEvent
 import com.cekroda.presentation.home.HomeState
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreen(
     state: HomeState,
@@ -36,7 +41,11 @@ fun HomeScreen(
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddInspectionClick) {
+            FloatingActionButton(
+                onClick = onAddInspectionClick,
+                modifier = Modifier
+                    .semantics { testTagsAsResourceId = true}.testTag("cta_add_inspection")
+            ) {
                 Text("+")
             }
         }

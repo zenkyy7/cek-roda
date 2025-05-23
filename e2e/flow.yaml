@@ -1,0 +1,18 @@
+appId: com.cekroda
+---
+- launchApp
+- assertVisible: Tidak ada inspeksi.
+- tapOn:
+    id: "cta_add_inspection"
+- tapOn: Car Name
+- inputText: Ford Fiesta 2012
+- tapOn: Car Type
+- inputText: Hatchback
+- tapOn: License Plate
+- inputText: AA 1
+- tapOn: Inspector Name
+- inputText: Mas Wahid
+- tapOn: Notes
+- inputText: Mobil BMI Pesanan Bapak Musthofa Kepala Jenggot
+- tapOn: Save Inspection
+- assertVisible: Ford Fiesta 2012
