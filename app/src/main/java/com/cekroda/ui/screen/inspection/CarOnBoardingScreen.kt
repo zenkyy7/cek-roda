@@ -13,6 +13,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -39,102 +40,107 @@ fun AddInspectionScreen(onSave: (Inspection) -> Unit) {
     val photoUri by remember { mutableStateOf<Uri?>(null) }
     var expanded by remember { mutableStateOf(false) }
 
-    var scrollState = rememberScrollState()
+    val scrollState = rememberScrollState()
 
-    Column(
+    Scaffold(
         modifier = Modifier
             .padding(16.dp)
-            .verticalScroll(scrollState)
-    ) {
-        TextField(
-            value = carName,
-            onValueChange = { carName = it },
-            label = { Text("Car Name") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = carType,
-            onValueChange = { carType = it },
-            label = { Text("Car Type") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = licensePlate,
-            onValueChange = { licensePlate = it },
-            label = { Text("License Plate") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = inspectorName,
-            onValueChange = { inspectorName = it },
-            label = { Text("Inspector Name") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = notes,
-            onValueChange = { notes = it },
-            label = { Text("Notes") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+    ) { padding ->
+        Column(
+            modifier = Modifier.padding(padding)
+                .verticalScroll(scrollState)
+                .padding(16.dp)
         ) {
             TextField(
-                value = status.name,onValueChange = {},
-                readOnly = true,
-                label = { Text("Status") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .menuAnchor()
+                value = carName,
+                onValueChange = { carName = it },
+                label = { Text("Car Name") },
+                modifier = Modifier.fillMaxWidth()
             )
 
-            ExposedDropdownMenu(
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = carType,
+                onValueChange = { carType = it },
+                label = { Text("Car Type") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = licensePlate,
+                onValueChange = { licensePlate = it },
+                label = { Text("License Plate") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = inspectorName,
+                onValueChange = { inspectorName = it },
+                label = { Text("Inspector Name") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = notes,
+                onValueChange = { notes = it },
+                label = { Text("Notes") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            ExposedDropdownMenuBox(
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onExpandedChange = { expanded = !expanded }
             ) {
-                InspectionStatus.values().forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option.name) },
-                        onClick = {
-                            status = option
-                            expanded = false
-                        }
-                    )
+                TextField(
+                    value = status.name,onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Status") },
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .menuAnchor()
+                )
+
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    InspectionStatus.values().forEach { option ->
+                        DropdownMenuItem(
+                            text = { Text(option.name) },
+                            onClick = {
+                                status = option
+                                expanded = false
+                            }
+                        )
+                    }
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {
-                val inspection = Inspection(
-                    carName = carName,
-                    carType = carType,
-                    licensePlate = licensePlate,
-                    inspectionDate = Date().time, // Current timestamp
-                    inspectorName = inspectorName,
-                    notes = notes,
-                    status = status,
-                    photoUri = photoUri?.toString()
-                )
-                onSave(inspection)
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Save Inspection")
+            Button(
+                onClick = {
+                    val inspection = Inspection(
+                        carName = carName,
+                        carType = carType,
+                        licensePlate = licensePlate,
+                        inspectionDate = Date().time, // Current timestamp
+                        inspectorName = inspectorName,
+                        notes = notes,
+                        status = status,
+                        photoUri = photoUri?.toString()
+                    )
+                    onSave(inspection)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Save Inspection")
+            }
         }
     }
 }

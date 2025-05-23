@@ -3,6 +3,7 @@ package com.cekroda.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cekroda.data.repository.InspectionRepository
+import com.cekroda.model.Inspection
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,13 +22,20 @@ class HomeViewModel(
         onEvent(HomeEvent.LoadInspections) // load saat init
     }
 
-    fun onEvent(event: HomeEvent) {
+    fun onEvent(event: HomeEvent, inspection: Inspection? = null) {
         when (event) {
             is HomeEvent.LoadInspections -> {
                 loadInspections()
             }
+
+            HomeEvent.SaveInspection -> {
+                inspection ?: return
+                saveInspection(inspection)
+            }
         }
     }
+
+    
 
     private fun loadInspections() {
         viewModelScope.launch {
@@ -47,6 +55,17 @@ class HomeViewModel(
                         )
                     }
                 }
+        }
+    }
+    
+    private fun saveInspection(inspection: Inspection) {
+        viewModelScope.launch {
+            try {
+                repository.insert(inspection)
+                loadInspections() // Refresh the list after saving
+            } catch (e: Exception) {
+                _state.update { it.copy(error = e.message ?: "Failed to save inspection") }
+            }
         }
     }
 }
